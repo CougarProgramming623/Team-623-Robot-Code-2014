@@ -30,6 +30,7 @@ public class FRCControl623 extends IterativeRobot {
     private DriveTrain drivebase;
     public AutonomousController623 autoDrive;
     private RobotBase623 robotBase;
+    public boolean PmoterStop = false;
     
     // init Robot 
     
@@ -60,6 +61,7 @@ public class FRCControl623 extends IterativeRobot {
     public void teleopInit() 
     {
       airControl.retractPickup();
+      airControl.PickupOut = false;
     }
 
     public void teleopPeriodic() {
@@ -137,6 +139,7 @@ public class FRCControl623 extends IterativeRobot {
             if(DSIO.getDigital(5))
         {
             airControl.extendPickup();
+            PmoterStop = false;
         }
           
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
@@ -148,7 +151,13 @@ public class FRCControl623 extends IterativeRobot {
               if(robotBase.getBallPieckupSwitch().get())
               {
                 airControl.retractPickup();
+                PmoterStop = true;
              }
+              if(PmoterStop)
+              {
+                  airControl.retractPickup();
+              }
+             
           }
     }
 
