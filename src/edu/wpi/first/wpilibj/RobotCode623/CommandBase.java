@@ -2,8 +2,6 @@ package edu.wpi.first.wpilibj.RobotCode623;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.templates.OI;
-import edu.wpi.first.wpilibj.templates.subsystems.ExampleSubsystem;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.

@@ -27,21 +27,8 @@ public class DriveTrain extends Subsystem {
 
     public DriveTrain(RobotBase623 base)
     {
-         private void InitDrive() {
-        // Talons init
-        right_Front_Motor = new Talon(RC.Right_Front_Motor_PWM);
-        right_Back_Motor = new Talon(RC.Right_Back_Motor_PWM);
-        left_Front_Motor = new Talon(RC.Left_Front_Motor_PWM);
-        left_Back_Motor = new Talon(RC.Left_Back_Motor_PWM);
-
-        
-        // RobotDrive Init();
-        MechDrive = new RobotDrive(left_Front_Motor, left_Back_Motor, right_Front_Motor, right_Back_Motor);
-        MechDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-        MechDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        System.out.println("Drive Inititlized");
-    }
-        gyro = base.getGyro();
+        mechDrive = base.getDriveBase();
+        driveStick = base.getDriveStick();
     }
   
        public void drive() {
