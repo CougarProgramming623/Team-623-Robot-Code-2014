@@ -25,7 +25,7 @@ public class PnuematicsControl extends Subsystem {
     public static boolean fire;
     private Talon PickUpTalon;  
     public static boolean PickupOut; 
-
+    public int pickupCount = 0;
     public PnuematicsControl(RobotBase623 robotBase) {
         charged = false;
         Catch = robotBase.getCatch();
@@ -60,7 +60,14 @@ public class PnuematicsControl extends Subsystem {
 
     public void retractPickup() {
         pickup.setState(RC.Pickup_retract);
-        Timer.delay(.75);
-        PickUpTalon.set(0.0);
+        PickupOut = true;
+        if(pickupCount>=6)
+        {
+            PickupOut = false;
+              PickUpTalon.set(0.0);
+              pickupCount = 0;
+        }
+        
+            pickupCount ++;
+        }
     }
-}
