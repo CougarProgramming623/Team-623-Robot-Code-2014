@@ -48,10 +48,13 @@ public class AutonomousController623 {
         if(RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax ||
               RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax  )
         {
+            
              double Magintude = 0;
             double Direction = 0;
             double twist = 0;
             mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
+            if(Vision2.isHot)
+            {
             if(shootTimer == 3)
             {
                 airControl.Fire();
@@ -60,12 +63,13 @@ public class AutonomousController623 {
             {
                 shootTimer++;
             }
+            }
         }
         else{
             double Magintude = .75;
             double Direction = 0;
             double twist = 0;
-            mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
+            mechDrive.mecanumDrive_Polar(Magintude, Direction, twist);
             shootTimer = 0;
         }
     }

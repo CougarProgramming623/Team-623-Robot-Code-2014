@@ -30,6 +30,8 @@ public class Vision2 {
     
     public void DoVision() {
         try {
+            if(Camera.freshImage())
+            {
           ColorImage myImage =  Camera.getImage();
           BinaryImage thresholdImage = myImage.thresholdHSV(120, 160, 200, 255, 200, 255);
           BinaryImage convexImage = thresholdImage.convexHull(false);
@@ -94,7 +96,8 @@ public class Vision2 {
           thresholdImage.free();
           convexImage.free();
           myImage.free();
-            
+          filteredImage.free();
+        }  
         } catch (AxisCameraException ex) {
             ex.printStackTrace();
         } catch (NIVisionException ex) {

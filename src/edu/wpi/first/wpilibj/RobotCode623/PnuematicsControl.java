@@ -79,6 +79,7 @@ public class PnuematicsControl extends Subsystem {
         {
             PickUpTalon.set((0.0));
             stopMotor = false;
+            pickupCount = 0;
         }
         else 
         {

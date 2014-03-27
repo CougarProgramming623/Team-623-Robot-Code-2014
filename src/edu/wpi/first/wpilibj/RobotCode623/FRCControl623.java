@@ -41,7 +41,7 @@ public class FRCControl623 extends IterativeRobot {
         robotBase = new RobotBase623();
         drivebase = new DriveTrain(robotBase);
         airControl = new PnuematicsControl(robotBase);
-        VisionThread.init();
+      //  VisionThread.init();
         manPickup = false;
         manPickupR = false;
     }
@@ -181,6 +181,7 @@ public class FRCControl623 extends IterativeRobot {
              }
              else if(rollers){
                  robotBase.GetPickupTalon().set(0.0);
+                 rollers = false;
              }
               if(DSIO.getDigital(10))
              {
@@ -189,6 +190,7 @@ public class FRCControl623 extends IterativeRobot {
              }
              else if(rollers){
                  robotBase.GetPickupTalon().set(0.0);
+                 rollers = false;
              }
               if(robotBase.getCompressor().getPressureSwitchValue())
              {
@@ -202,13 +204,12 @@ public class FRCControl623 extends IterativeRobot {
               if(inRange())
              {
                  DSIO.setDigitalOutput(12, true);
-                 DSIO.setDigitalOutput(13, true);
+                 
                   
              }
              else
              {
                  DSIO.setDigitalOutput(12, true);
-                 DSIO.setDigitalOutput(13, false);
              }
           
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
