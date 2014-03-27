@@ -31,6 +31,8 @@ public class FRCControl623 extends IterativeRobot {
     public AutonomousController623 autoDrive;
     private RobotBase623 robotBase;
     public boolean PmoterStop = false;
+    public boolean manPickup;
+    public boolean manPickupR;
     
     // init Robot 
     
@@ -38,8 +40,9 @@ public class FRCControl623 extends IterativeRobot {
         robotBase = new RobotBase623();
         drivebase = new DriveTrain(robotBase);
         airControl = new PnuematicsControl(robotBase);
-        
-        
+        VisionThread.init();
+        manPickup = false;
+        manPickupR = false;
     }
 
     public void testInit() {
@@ -49,10 +52,11 @@ public class FRCControl623 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousInit() {
+        autoDrive.AutoInit();
     }
 
     public void autonomousPeriodic() {
-        
+        autoDrive.Auto1();
     }
 
     /**
@@ -67,7 +71,7 @@ public class FRCControl623 extends IterativeRobot {
     public void teleopPeriodic() {
         
         DSInput();
-        if(PnuematicsControl.PickupOut)
+        if(PnuematicsControl.PickupOut &&!manPickup || manPickupR);
         {
         checkRetract();
         }
@@ -75,6 +79,8 @@ public class FRCControl623 extends IterativeRobot {
         {
             airControl.stopPickupMotor();
         }
+        getUSoundDistance();
+        getCamDistance();
        drivebase.drive();
     }
     
@@ -145,6 +151,26 @@ public class FRCControl623 extends IterativeRobot {
             airControl.extendPickup();
             PmoterStop = false;
         }
+            if(DSIO.getDigital(6))
+            {
+                airControl.extendPickup();
+                manPickup = true;
+            }
+            else if(manPickup)
+            {
+                airControl.retractPickup();
+                manPickup = false;
+            }
+             if(DSIO.getDigital(7))
+            {
+                airControl.extendPickupR();
+                manPickup = true;
+            }
+             else if( manPickupR)
+            {
+                airControl.retractPickup();
+                manPickupR = false;
+            }
           
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
         ex.printStackTrace();
@@ -163,12 +189,18 @@ public class FRCControl623 extends IterativeRobot {
               }
              
           }
-          void getUSoundDistance()
+         public void getUSoundDistance()
           {
               double distance = robotBase.getEz4().getDistance();
               
-              printToDash(1, "distance " + distance );
+              printToDash(1, " US distance " + distance );
           }
-                  
+         public void getCamDistance()
+         {
+             printToDash(2, "CamY D" + Vision2.DistanceY);
+             printToDash(3, "CamX D" + Vision2.DistanceX);
+         }
+         
+          
     }
 

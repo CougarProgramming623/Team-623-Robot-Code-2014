@@ -79,4 +79,11 @@ public class RC {
     
     //BallPickup talon
      public static final int Pickup_Talon_port = 5;
+     
+     //Vision
+     public static final int minWidthforHot = 70;
+     public static final int minHeightforHot = 70;
+     public static final double shootDistanceMax = 13.5;
+     public static final double shootDistanceMin = 10.5;
 }
+

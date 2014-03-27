@@ -4,7 +4,6 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
-import edu.wpi.first.wpilibj.Timer;
 
 
 /**
@@ -12,12 +11,16 @@ import edu.wpi.first.wpilibj.Timer;
  * @author samwinkelstein
  */
 public class VisionThread implements Runnable{
-private VisionController Vis;
+    
+    public static Vision2 VisionProcess= new Vision2();
     public void run() {
         while(true)
         {
-           Vis.processImage();
-           
+           VisionProcess.DoVision();
         }
     }
-}
+        public static void init()
+        {
+            new Thread(new VisionThread()).start();
+        }
+    }

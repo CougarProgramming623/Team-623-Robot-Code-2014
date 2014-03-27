@@ -326,5 +326,6 @@ public class VisionController {
 
         return isHot;
     }
+    
 }
 

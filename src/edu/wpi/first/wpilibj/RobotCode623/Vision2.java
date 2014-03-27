@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
  * @author samwinkelstein
  */
 public class Vision2 {
-      
+      public static volatile boolean isHot;
     public static volatile double DistanceX;
      public static volatile double DistanceY;
     public static AxisCamera Camera = AxisCamera.getInstance();
@@ -89,6 +89,7 @@ public class Vision2 {
           }
          DistanceX = computeDistanceX(xWidth);
          DistanceY = computeDistanceY(yHeight);
+         isHot = isHot(xWidth, yHeight);
           
           thresholdImage.free();
           convexImage.free();
@@ -115,5 +116,9 @@ public class Vision2 {
 
 	return (distance + (distance * .111))/12;
 }
+   public boolean isHot(double horizontalW, double verticalH)
+   {
+       return (horizontalW >= RC.minWidthforHot && verticalH >= RC.minHeightforHot);
+   }
 
 }

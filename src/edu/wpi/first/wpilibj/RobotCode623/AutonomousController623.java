@@ -37,7 +37,38 @@ public class AutonomousController623 {
         robotBase.getGyro().reset();
         ShootAngle = robotBase.getGyro().getAngle();
     }
-      
+    
+        public void AutoInit()
+        {
+             ShootAngle = robotBase.getGyro().getAngle();
+        }
+    private int shootTimer = 0;
+    public void Auto1()
+    {
+        if(RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax ||
+              RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax  )
+        {
+             double Magintude = 0;
+            double Direction = 0;
+            double twist = 0;
+            mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
+            if(shootTimer == 3)
+            {
+                airControl.Fire();
+            }
+            else
+            {
+                shootTimer++;
+            }
+        }
+        else{
+            double Magintude = .75;
+            double Direction = 0;
+            double twist = 0;
+            mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
+            shootTimer = 0;
+        }
+    }
 
     public boolean ServoRight() {
         if (servo == servoRight) {
@@ -113,6 +144,11 @@ public class AutonomousController623 {
        airControl.Fire();
 
     }
+      public double getUSoundDistance()
+          {
+              return robotBase.getEz4().getDistance();
+              
+          }
     
     
     
