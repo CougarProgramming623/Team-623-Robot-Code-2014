@@ -36,6 +36,7 @@ public class RobotBase623 {
     public static VisionController visControl;
     //sensors Alog
     private Gyro gyro;
+    private ultraSonic_Alog ez4;
     //constructor
 
     public RobotBase623() {
@@ -77,7 +78,9 @@ public class RobotBase623 {
 
     private void InitSensors() {
         gyro = new Gyro(RC.Gyro_ALog);
+        ez4 = new ultraSonic_Alog(2, 1);
         ballPickupSwitch = new DigitalInput(RC.Ball_Pickup_DIO);
+        
         System.out.println("Sensor Ports Inititlized");
     }
     private void initVision()
@@ -130,5 +133,9 @@ public class RobotBase623 {
     public DigitalInput getPickupSwitch()
     {
         return ballPickupSwitch;
+    }
+    public ultraSonic_Alog getEz4()
+    {
+        return ez4;
     }
 }

@@ -71,6 +71,10 @@ public class FRCControl623 extends IterativeRobot {
         {
         checkRetract();
         }
+        if(airControl.stopMotor)
+        {
+            airControl.stopPickupMotor();
+        }
        drivebase.drive();
     }
     
@@ -159,5 +163,12 @@ public class FRCControl623 extends IterativeRobot {
               }
              
           }
+          void getUSoundDistance()
+          {
+              double distance = robotBase.getEz4().getDistance();
+              
+              printToDash(1, "distance " + distance );
+          }
+                  
     }
 

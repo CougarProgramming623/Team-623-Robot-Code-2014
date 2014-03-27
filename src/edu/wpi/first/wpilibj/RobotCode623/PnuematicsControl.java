@@ -25,6 +25,7 @@ public class PnuematicsControl extends Subsystem {
     public static boolean fire;
     private Talon PickUpTalon;  
     public static boolean PickupOut; 
+    public boolean stopMotor;
     public int pickupCount = 0;
     public PnuematicsControl(RobotBase623 robotBase) {
         charged = false;
@@ -34,6 +35,7 @@ public class PnuematicsControl extends Subsystem {
         PickUpTalon = new Talon(5);
         PickUpTalon.set(0.0);
         PickupOut = false;
+        stopMotor = false;
     }
 
     public void Charge() {
@@ -60,14 +62,19 @@ public class PnuematicsControl extends Subsystem {
 
     public void retractPickup() {
         pickup.setState(RC.Pickup_retract);
-        PickupOut = true;
-        if(pickupCount>=6)
+        stopMotor = true;
+    }   
+    
+    public void stopPickupMotor()
+    {
+        if(pickupCount > 6)
         {
-            PickupOut = false;
-              PickUpTalon.set(0.0);
-              pickupCount = 0;
+            PickUpTalon.set((0.0));
+            stopMotor = false;
         }
-        
+        else 
+        {
             pickupCount ++;
         }
     }
+}

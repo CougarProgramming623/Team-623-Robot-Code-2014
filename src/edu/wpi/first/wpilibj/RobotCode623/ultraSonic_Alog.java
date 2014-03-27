@@ -22,13 +22,12 @@ public class ultraSonic_Alog extends AnalogChannel {
     {
         
          super(channel);
-         if(type != 1)
         this.type = type;
        
     }
      // get distancein feet
     public double getDistance(){
-        double vpi;
+        double vpi = 0;
         if(type == 1)
         {
             vpi = vpi1;
