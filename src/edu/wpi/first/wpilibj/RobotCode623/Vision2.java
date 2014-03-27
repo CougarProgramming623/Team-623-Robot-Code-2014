@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
  */
 public class Vision2 {
       
-    public double DistanceX;
-    public double DistanceY;
+    public static volatile double DistanceX;
+     public static volatile double DistanceY;
     public static AxisCamera Camera = AxisCamera.getInstance();
     
     public Vision2()
