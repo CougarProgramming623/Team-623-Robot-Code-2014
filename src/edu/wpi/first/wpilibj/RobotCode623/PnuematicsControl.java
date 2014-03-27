@@ -63,6 +63,11 @@ public class PnuematicsControl extends Subsystem {
         PickUpTalon.set(-1.0);
         PickupOut = true;
     }
+        public void extendPickupN() {
+        
+        pickup.setState(RC.Pickup_extend);
+        PickupOut = true;
+    }
     public void retractPickup() {
         pickup.setState(RC.Pickup_retract);
         stopMotor = true;

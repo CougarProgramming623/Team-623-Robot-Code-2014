@@ -33,6 +33,7 @@ public class FRCControl623 extends IterativeRobot {
     public boolean PmoterStop = false;
     public boolean manPickup;
     public boolean manPickupR;
+    public boolean rollers;
     
     // init Robot 
     
@@ -79,7 +80,6 @@ public class FRCControl623 extends IterativeRobot {
         {
             airControl.stopPickupMotor();
         }
-        getUSoundDistance();
         getCamDistance();
        drivebase.drive();
     }
@@ -122,7 +122,6 @@ public class FRCControl623 extends IterativeRobot {
     
         public void DSInput()       
     {
-        int command = 0;
          
           try {
          
@@ -153,7 +152,7 @@ public class FRCControl623 extends IterativeRobot {
         }
             if(DSIO.getDigital(6))
             {
-                airControl.extendPickup();
+                airControl.extendPickupN();
                 manPickup = true;
             }
             else if(manPickup)
@@ -171,6 +170,46 @@ public class FRCControl623 extends IterativeRobot {
                 airControl.retractPickup();
                 manPickupR = false;
             }
+             if(DSIO.getDigital(8))
+             {
+                 airControl.retractPickup();
+             }
+             if(DSIO.getDigital(9))
+             {
+                 rollers = true;
+                robotBase.GetPickupTalon().set(1.0);
+             }
+             else if(rollers){
+                 robotBase.GetPickupTalon().set(0.0);
+             }
+              if(DSIO.getDigital(10))
+             {
+                  rollers = true;
+                robotBase.GetPickupTalon().set(-1.0);
+             }
+             else if(rollers){
+                 robotBase.GetPickupTalon().set(0.0);
+             }
+              if(robotBase.getCompressor().getPressureSwitchValue())
+             {
+                 DSIO.setDigitalOutput(11, true);
+                  
+             }
+             else
+             {
+                 DSIO.setDigitalOutput(11, false);
+             }
+              if(inRange())
+             {
+                 DSIO.setDigitalOutput(12, true);
+                 DSIO.setDigitalOutput(13, true);
+                  
+             }
+             else
+             {
+                 DSIO.setDigitalOutput(12, true);
+                 DSIO.setDigitalOutput(13, false);
+             }
           
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
         ex.printStackTrace();
@@ -189,18 +228,25 @@ public class FRCControl623 extends IterativeRobot {
               }
              
           }
-         public void getUSoundDistance()
+         public double getUSoundDistance()
           {
               double distance = robotBase.getEz4().getDistance();
               
-              printToDash(1, " US distance " + distance );
+              return distance;
           }
          public void getCamDistance()
          {
              printToDash(2, "CamY D" + Vision2.DistanceY);
              printToDash(3, "CamX D" + Vision2.DistanceX);
+         }   
+         public boolean inRange()
+         {
+           if (RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax || 
+                   RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax)
+           {
+               return true;
+           }
+           return false;
          }
-         
-          
     }
 
