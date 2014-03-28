@@ -21,8 +21,7 @@ public class RC {
    
    //control Joysticks
     public static final int DRIVER_JOYSTICK_PORT = 1;
-    public static final int Control_JOYSTICK_PORT = 2;
-   
+    
     //Joystick 1 buttons
     public static final int JSB1_FIRE_IN_RAnge = 1;
     public static final int JSB1_Spin_Right = 3;
@@ -33,8 +32,17 @@ public class RC {
     public static final int DIO_Charge = 2;
     public static final int DIO_Juke_shoot_right = 3;
     public static final int DIO_Juke_shoot_Left = 4;
-    public static final int DIO_lock_FB_and_Load = 5;
+    public static final int DIO_Pickup_auto = 5;
+    public static final int DIO_Pickup_manual_extend = 6;
+    public static final int DIO_Pickup_auto_reverse = 7;
+    public static final int DIO_Pickup_manual_retract = 8;
+    public static final int DIO_Pickup_rollers_reverse = 9;
+    public static final int DIO_Pickup_rollers_forward = 10;
     
+    //enhanced IO LEDs
+    public static final int DIO_LED_Pressure_switch = 11;
+    public static final int DIO_LED_In_range = 12;
+
     //Puematics System pnuematics ports 
     //compressor
     public static final int COMPRESSOR_PRESSURE_SWITCH_CHANNEL_DIO = 1;
@@ -49,22 +57,16 @@ public class RC {
     public static final Value Pickup_extend = Value.kForward;
     public static final Value Pickup_retract = Value.kReverse;
     public static final Value Pickup_off = Value.kOff;
-    //pickup values
-    public static final Value Holder_release = Value.kForward;
-    public static final Value Holder_clamp = Value.kReverse;
-    public static final Value Holder_off = Value.kOff;
+
     //solinoid single
     public static final int Launch_Cylenders_Sol = 1;
     // solinoid double
-       // catch sol
+    // catch sol
     public static final int Catch_Lock_Port = 2;
     public static final int Catch_release_Port = 3;
-        // pickup sol
+    // pickup sol
     public static final int Pickup_Extend_port = 4;
     public static final int Pickup_Retract_port = 5;
-        // holding sol
-    public static final int holder_Release_port = 5;
-    public static final int holder_Clamp_port = 6;
     //anolog sensors use ALog at end 1, 8
     public static final int Gyro_ALog = 1;
 
@@ -74,18 +76,18 @@ public class RC {
     
     //distance inRange;
     public static final int Max = 16;
-     public static final int Min = 13;
+    public static final int Min = 13;
      
-     //Ball pickup switch
+    //Ball pickup switch
     public static final int Ball_Pickup_DIO = 2;    
     
     //BallPickup talon
-     public static final int Pickup_Talon_port = 5;
+    public static final int Pickup_Talon_port = 5;
      
-     //Vision
-     public static final int minWidthforHot = 70;
-     public static final int minHeightforHot = 70;
-     public static final double shootDistanceMax = 13.5;
-     public static final double shootDistanceMin = 10.5;
+    //Vision
+    public static final int minWidthforHot = 70;
+    public static final int minHeightforHot = 70;
+    public static final double shootDistanceMax = 13.5;
+    public static final double shootDistanceMin = 10.5;
 }
 

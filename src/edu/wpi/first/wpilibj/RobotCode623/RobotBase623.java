@@ -14,8 +14,7 @@ public class RobotBase623 {
 
     //ALL pieces of hardware
     //joysticks
-    private Joystick driveStick;
-    private Joystick controlStick;
+    private final Joystick driveStick;
     // Drive Base ******************
     private RobotDrive MechDrive;
     //DriveMotors
@@ -39,7 +38,6 @@ public class RobotBase623 {
         InitDrive();
         InitSensors();
         driveStick = new Joystick(RC.DRIVER_JOYSTICK_PORT);
-        controlStick = new Joystick(RC.Control_JOYSTICK_PORT);
         
         System.out.println("ready for operation!");
         compressor.start();
@@ -54,23 +52,19 @@ public class RobotBase623 {
         left_Front_Motor = new Talon(RC.Left_Front_Motor_PWM);
         left_Back_Motor = new Talon(RC.Left_Back_Motor_PWM);
 
-        
         // RobotDrive Init();
         MechDrive = new RobotDrive(left_Front_Motor, left_Back_Motor, right_Front_Motor, right_Back_Motor);
         MechDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         MechDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        System.out.println("Drive Inititlized");
     }
 
     private void InitSensors() {
         gyro = new Gyro(RC.Gyro_ALog);
         ez4 = new ultraSonic_Alog(2, 1);
         ballPickupSwitch = new DigitalInput(RC.Ball_Pickup_DIO);
-        
-        System.out.println("Sensor Ports Inititlized");
     }
-    private void initVision()
-    {
+    
+    private void initVision() {
         visControl = VisionController.getInstance();
     }
 
@@ -90,22 +84,19 @@ public class RobotBase623 {
         return driveStick;
     }
 
-    public Joystick getControlStick() {
-        return controlStick;
-    }
     public DigitalInput getBallPieckupSwitch() {
         return ballPickupSwitch;
     }
-    public Talon GetPickupTalon()
-    {
+
+    public Talon GetPickupTalon() {
         return PickupTalon;
     }
-    public DigitalInput getPickupSwitch()
-    {
+    
+    public DigitalInput getPickupSwitch() {
         return ballPickupSwitch;
     }
-    public ultraSonic_Alog getEz4()
-    {
+    
+    public ultraSonic_Alog getEz4() {
         return ez4;
     }
 }

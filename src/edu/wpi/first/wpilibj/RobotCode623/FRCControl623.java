@@ -25,7 +25,9 @@ public class FRCControl623 extends IterativeRobot {
     private PnuematicsControl airControl;
     private DriveTrain drivebase;
     public AutonomousController623 autoDrive;
+    private DriverStationEnhancedIO DSIO = null;
     private RobotBase623 robotBase;
+    private DriverStationLCD dsLCD = null;
     public boolean PmoterStop = false;
     public boolean manPickup;
     public boolean manPickupR;
@@ -77,7 +79,9 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public void printToDash(int line, String str) {
-        DriverStationLCD dsLCD = DriverStationLCD.getInstance();
+        if (null == dsLCD) {
+            dsLCD = DriverStationLCD.getInstance();
+        }
         switch (line) {
             case 1:
                 dsLCD.println(DriverStationLCD.Line.kUser1, 1, str);
@@ -104,66 +108,59 @@ public class FRCControl623 extends IterativeRobot {
     public void DSInput() {
 
         try {
-            DriverStationEnhancedIO DSIO = DriverStation.getInstance().getEnhancedIO();
-
-            if (DSIO.getDigital(1)) {
+            if (null == DSIO) {
+                DSIO = DriverStation.getInstance().getEnhancedIO();
+            }
+            if (DSIO.getDigital(RC.DIO_Fire)) {
                 airControl.Fire();
             }
-            if (DSIO.getDigital(2)) {
+            if (DSIO.getDigital(RC.DIO_Charge)) {
                 airControl.Charge();
             }
-            if (DSIO.getDigital(3)) {
+            if (DSIO.getDigital(RC.DIO_Juke_shoot_right)) {
                 autoDrive.JukeNShootRight();
             }
-            if (DSIO.getDigital(4)) {
+            if (DSIO.getDigital(RC.DIO_Juke_shoot_Left)) {
                 autoDrive.JukeNShootLeft();
             }
-            if (DSIO.getDigital(5)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_auto)) {
                 airControl.extendPickup();
                 PmoterStop = false;
             }
-            if (DSIO.getDigital(6)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_manual_extend)) {
                 airControl.extendPickupN();
                 manPickup = true;
             } else if (manPickup) {
                 airControl.retractPickup();
                 manPickup = false;
             }
-            if (DSIO.getDigital(7)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_auto_reverse)) {
                 airControl.extendPickupR();
                 manPickup = true;
             } else if (manPickupR) {
                 airControl.retractPickup();
                 manPickupR = false;
             }
-            if (DSIO.getDigital(8)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_manual_retract)) {
                 airControl.retractPickup();
             }
-            if (DSIO.getDigital(9)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_rollers_reverse)) {
                 rollers = true;
                 robotBase.GetPickupTalon().set(1.0);
             } else if (rollers) {
                 robotBase.GetPickupTalon().set(0.0);
                 rollers = false;
             }
-            if (DSIO.getDigital(10)) {
+            if (DSIO.getDigital(RC.DIO_Pickup_rollers_forward)) {
                 rollers = true;
                 robotBase.GetPickupTalon().set(-1.0);
             } else if (rollers) {
                 robotBase.GetPickupTalon().set(0.0);
                 rollers = false;
             }
-            if (robotBase.getCompressor().getPressureSwitchValue()) {
-                DSIO.setDigitalOutput(11, true);
-
-            } else {
-                DSIO.setDigitalOutput(11, false);
-            }
-            if (inRange()) {
-                DSIO.setDigitalOutput(12, true);
-            } else {
-                DSIO.setDigitalOutput(12, true);
-            }
+            DSIO.setDigitalOutput(RC.DIO_LED_Pressure_switch,
+                    robotBase.getCompressor().getPressureSwitchValue());
+            DSIO.setDigitalOutput(RC.DIO_LED_In_range, inRange());
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
             //ex.printStackTrace();
         }
@@ -180,9 +177,7 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public double getUSoundDistance() {
-        double distance = robotBase.getEz4().getDistance();
-
-        return distance;
+        return robotBase.getEz4().getDistance();
     }
 
     public void getCamDistance() {

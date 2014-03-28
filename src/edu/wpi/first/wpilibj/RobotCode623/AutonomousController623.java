@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class AutonomousController623 {
 
-    private RobotDrive mechDrive;
-    private PnuematicsControl airControl;
+    private final RobotDrive mechDrive;
+    private final PnuematicsControl airControl;
     private double drivemagnitude;
     private double twistmagnitude;
     private double direction;
@@ -68,19 +68,11 @@ public class AutonomousController623 {
     }
 
     public boolean ServoRight() {
-        if (servo == servoRight) {
-            return true;
-        }
-
-        return false;
+        return servo == servoRight;
     }
 
     public boolean ServoLeft() {
-        if (servo == servoLeft) {
-            return true;
-        }
-
-        return false;
+        return servo == servoLeft;
     }
 
     public void JukeNShootRight() {
