@@ -84,7 +84,7 @@ public class RobotBase623 {
         return driveStick;
     }
 
-    public DigitalInput getBallPieckupSwitch() {
+    public DigitalInput getBallPickupSwitch() {
         return ballPickupSwitch;
     }
 

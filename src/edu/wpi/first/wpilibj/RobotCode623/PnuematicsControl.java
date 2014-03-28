@@ -31,7 +31,7 @@ public class PnuematicsControl extends Subsystem {
     public boolean stopMotor;
     public int pickupCount = 0;
 
-    public PnuematicsControl(RobotBase623 robotBase) {
+    public PnuematicsControl() {
         charged = false;
         Catch = new DoubleSolenoid(RC.Catch_Lock_Port, RC.Catch_release_Port);
         pickup = new DoubleSolenoid(RC.Pickup_Extend_port, RC.Pickup_Retract_port);

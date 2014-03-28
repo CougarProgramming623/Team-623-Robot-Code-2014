@@ -28,19 +28,18 @@ public class FRCControl623 extends IterativeRobot {
     private DriverStationEnhancedIO DSIO = null;
     private RobotBase623 robotBase;
     private DriverStationLCD dsLCD = null;
-    public boolean PmoterStop = false;
-    public boolean manPickup;
-    public boolean manPickupR;
-    public boolean rollers;
+    private boolean rollerStop = false;
+    private boolean manPickup = false;
+    private boolean manPickupR = false;
+    private boolean rollersr = false;
+    private boolean rollersf = false;
 
     // init Robot 
     public void robotInit() {
         robotBase = new RobotBase623();
         drivebase = new DriveTrain(robotBase);
-        airControl = new PnuematicsControl(robotBase);
+        airControl = new PnuematicsControl();
         Vision2.init();
-        manPickup = false;
-        manPickupR = false;
     }
 
     public void testInit() {
@@ -125,7 +124,7 @@ public class FRCControl623 extends IterativeRobot {
             }
             if (DSIO.getDigital(RC.DIO_Pickup_auto)) {
                 airControl.extendPickup();
-                PmoterStop = false;
+                rollerStop = false;
             }
             if (DSIO.getDigital(RC.DIO_Pickup_manual_extend)) {
                 airControl.extendPickupN();
@@ -136,7 +135,7 @@ public class FRCControl623 extends IterativeRobot {
             }
             if (DSIO.getDigital(RC.DIO_Pickup_auto_reverse)) {
                 airControl.extendPickupR();
-                manPickup = true;
+                manPickupR = true;
             } else if (manPickupR) {
                 airControl.retractPickup();
                 manPickupR = false;
@@ -145,18 +144,18 @@ public class FRCControl623 extends IterativeRobot {
                 airControl.retractPickup();
             }
             if (DSIO.getDigital(RC.DIO_Pickup_rollers_reverse)) {
-                rollers = true;
+                rollersr = true;
                 robotBase.GetPickupTalon().set(1.0);
-            } else if (rollers) {
+            } else if (rollersr) {
                 robotBase.GetPickupTalon().set(0.0);
-                rollers = false;
+                rollersr = false;
             }
             if (DSIO.getDigital(RC.DIO_Pickup_rollers_forward)) {
-                rollers = true;
+                rollersf = true;
                 robotBase.GetPickupTalon().set(-1.0);
-            } else if (rollers) {
+            } else if (rollersf) {
                 robotBase.GetPickupTalon().set(0.0);
-                rollers = false;
+                rollersf = false;
             }
             DSIO.setDigitalOutput(RC.DIO_LED_Pressure_switch,
                     robotBase.getCompressor().getPressureSwitchValue());
@@ -167,11 +166,11 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     void checkRetract() {
-        if (robotBase.getBallPieckupSwitch().get()) {
+        if (robotBase.getBallPickupSwitch().get()) {
             airControl.retractPickup();
-            PmoterStop = true;
+            rollerStop = true;
         }
-        if (PmoterStop) {
+        if (rollerStop) {
             airControl.retractPickup();
         }
     }
