@@ -28,6 +28,7 @@ public class AutonomousController623 {
     public RobotBase623 robotBase;
     public double ShootAngle;
     boolean initjukeNShoot;
+    private int autoCycles;
 
     public AutonomousController623(RobotBase623 robotBase, PnuematicsControl airControl) {
         this.robotBase = robotBase;
@@ -40,6 +41,8 @@ public class AutonomousController623 {
 
     public void AutoInit() {
         ShootAngle = robotBase.getGyro().getAngle();
+        autoCycles = 0;
+        airControl.Charge();
     }
     private int shootTimer = 0;
 
@@ -64,6 +67,15 @@ public class AutonomousController623 {
             double twist = 0;
             mechDrive.mecanumDrive_Polar(Magintude, Direction, twist);
             shootTimer = 0;
+        }
+    }
+    
+    public void AutoSimple() {
+        if (autoCycles >= 25) {
+            mechDrive.mecanumDrive_Polar(0, 0, 0);
+            airControl.Fire();
+        } else {
+            mechDrive.mecanumDrive_Polar(.75, 0, 0);
         }
     }
 

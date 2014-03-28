@@ -50,7 +50,8 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-        autoDrive.Auto1();
+        //autoDrive.Auto1();
+        autoDrive.AutoSimple();
     }
 
     public void teleopInit() {

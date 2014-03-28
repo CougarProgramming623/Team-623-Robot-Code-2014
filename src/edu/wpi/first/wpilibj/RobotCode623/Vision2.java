@@ -29,7 +29,7 @@ public class Vision2 implements Runnable {
     }
     
     public static void init() {
-        new Thread(new Vision2()).start();
+        //new Thread(new Vision2()).start();
     }
 
     public void run() {
