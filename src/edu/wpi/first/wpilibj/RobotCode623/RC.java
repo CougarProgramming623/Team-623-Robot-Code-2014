@@ -72,8 +72,8 @@ public class RC {
     public static final int Pickup_Extend_port = 4;
     public static final int Pickup_Retract_port = 5;
     // launch sol
-    public static final int Launch_Extend_port = 6;
-    public static final int Launch_Retract_port = 7;
+    public static final int Launch_Extend_port = 7;
+    public static final int Launch_Retract_port = 8;
     //anolog sensors use ALog at end 1, 8
     public static final int Gyro_ALog = 1;
 

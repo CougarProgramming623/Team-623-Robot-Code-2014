@@ -4,7 +4,7 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
-import edu.wpi.first.wpilibj.Compressor;
+//import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
@@ -22,11 +22,12 @@ public class PnuematicsControl extends Subsystem {
 
     private final DoubleSolenoid Catch;
     private final DoubleSolenoid pickup;
-    private final Solenoid LaunchCylenders;
+    //private final Solenoid LaunchCylenders;
+    private final DoubleSolenoid launch;
     //private final Compressor compressor;
     public static boolean charged;
     public static boolean fire;
-    private final Talon PickUpTalon;
+    public final Talon PickUpTalon;
     public boolean PickupOut;
     public boolean stopMotor;
     public int pickupCount = 0;
@@ -35,7 +36,9 @@ public class PnuematicsControl extends Subsystem {
         charged = false;
         Catch = new DoubleSolenoid(RC.Catch_Lock_Port, RC.Catch_release_Port);
         pickup = new DoubleSolenoid(RC.Pickup_Extend_port, RC.Pickup_Retract_port);
-        LaunchCylenders = new Solenoid(RC.Launch_Cylenders_Sol);
+        //LaunchCylenders = new Solenoid(RC.Launch_Cylenders_Sol);
+        launch = new DoubleSolenoid(RC.Launch_Extend_port, RC.Launch_Retract_port);
+        launch.set(DoubleSolenoid.Value.kReverse);
         //compressor = new Compressor(RC.COMPRESSOR_PRESSURE_SWITCH_CHANNEL_DIO, RC.COMPRESSOR_RELAY_CHANNEL);
         //compressor.start();
         
@@ -47,16 +50,16 @@ public class PnuematicsControl extends Subsystem {
 
     public void Charge() {
         Catch.set(RC.Catch_Lock);
-        Timer.delay(1.5);
-        LaunchCylenders.set(true);
-        Timer.delay(10.0);
+        Timer.delay(.5);
+        launch.set(RC.Launch_launch);
+        //Timer.delay(10.0);
         charged = true;
     }
 
     public void Fire() {
         Catch.set(RC.Catch_Release);
-        Timer.delay(.5);
-        LaunchCylenders.set(false);
+        //Timer.delay(10);
+        launch.set(RC.Launch_retract);
     }
 
     public void extendPickup() {

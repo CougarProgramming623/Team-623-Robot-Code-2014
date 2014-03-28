@@ -71,10 +71,10 @@ public class AutonomousController623 {
     }
     
     public void AutoSimple() {
-        if (autoCycles >= 70) {
+        if (autoCycles == 70) {
             mechDrive.mecanumDrive_Polar(0, 0, 0);
             autoCycles++;
-        } else if (autoCycles >= 75) {
+        } else if (autoCycles == 85) {
             airControl.Fire();
         } else {
             mechDrive.mecanumDrive_Polar(.75, 0, 0);
