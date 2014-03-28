@@ -22,7 +22,6 @@ public class RobotBase623 {
     private Talon right_Back_Motor;
     private Talon left_Front_Motor;
     private Talon left_Back_Motor;
-    private Talon PickupTalon;
     //******************************
     // Pnuematics components********
     private final Compressor compressor =
@@ -90,14 +89,6 @@ public class RobotBase623 {
         return ballPickupSwitch;
     }
 
-    public Talon GetPickupTalon() {
-        return PickupTalon;
-    }
-    
-    public DigitalInput getPickupSwitch() {
-        return ballPickupSwitch;
-    }
-    
     public ultraSonic_Alog getEz4() {
         return ez4;
     }

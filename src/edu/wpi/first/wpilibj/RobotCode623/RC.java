@@ -79,7 +79,7 @@ public class RC {
     public static final int Min = 13;
      
     //Ball pickup switch
-    public static final int Ball_Pickup_DIO = 2;    
+    public static final int Ball_Pickup_DIO = 3;    
     
     //BallPickup talon
     public static final int Pickup_Talon_port = 5;
