@@ -60,8 +60,7 @@ public class FRCControl623 extends IterativeRobot {
     public void teleopPeriodic() {
 
         DSInput();
-        if (airControl.PickupOut && !manPickup || manPickupR);
-        {
+        if (airControl.PickupOut && !manPickup || manPickupR) {
             checkRetract();
         }
         if (airControl.stopMotor) {
@@ -192,10 +191,9 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public boolean inRange() {
-        if (RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax
-                || RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax) {
-            return true;
-        }
-        return false;
+        return RC.shootDistanceMin < Vision2.DistanceY &&
+                Vision2.DistanceY < RC.shootDistanceMax ||
+                RC.shootDistanceMin < getUSoundDistance() &&
+                getUSoundDistance() < RC.shootDistanceMax;
     }
 }
