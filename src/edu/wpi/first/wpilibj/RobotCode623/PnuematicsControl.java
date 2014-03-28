@@ -4,6 +4,9 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,22 +20,25 @@ public class PnuematicsControl extends Subsystem {
     protected void initDefaultCommand() {
     }
 
-    private DoubleActSol Catch;
-    private DoubleActSol pickup;
-    private DoubleActSol holder;
-    private SingleActSol LaunchCylenders;
+    private final DoubleSolenoid Catch;
+    private final DoubleSolenoid pickup;
+    private final Solenoid LaunchCylenders;
+    //private final Compressor compressor;
     public static boolean charged;
     public static boolean fire;
-    private Talon PickUpTalon;
-    public static boolean PickupOut;
+    private final Talon PickUpTalon;
+    public boolean PickupOut;
     public boolean stopMotor;
     public int pickupCount = 0;
 
     public PnuematicsControl(RobotBase623 robotBase) {
         charged = false;
-        Catch = robotBase.getCatch();
-        pickup = robotBase.getPickup();
-        LaunchCylenders = robotBase.getLaunchCylenders();
+        Catch = new DoubleSolenoid(RC.Catch_Lock_Port, RC.Catch_release_Port);
+        pickup = new DoubleSolenoid(RC.Pickup_Extend_port, RC.Pickup_Retract_port);
+        LaunchCylenders = new Solenoid(RC.Launch_Cylenders_Sol);
+        //compressor = new Compressor(RC.COMPRESSOR_PRESSURE_SWITCH_CHANNEL_DIO, RC.COMPRESSOR_RELAY_CHANNEL);
+        //compressor.start();
+        
         PickUpTalon = new Talon(5);
         PickUpTalon.set(0.0);
         PickupOut = false;
@@ -40,41 +46,38 @@ public class PnuematicsControl extends Subsystem {
     }
 
     public void Charge() {
-        Catch.setState(RC.Catch_Lock);
+        Catch.set(RC.Catch_Lock);
         Timer.delay(1.5);
-        LaunchCylenders.setState(true);
+        LaunchCylenders.set(true);
         Timer.delay(10.0);
         charged = true;
     }
 
     public void Fire() {
-        Catch.setState(RC.Catch_Release);
+        Catch.set(RC.Catch_Release);
         Timer.delay(.5);
-        LaunchCylenders.setState(false);
+        LaunchCylenders.set(false);
     }
 
     public void extendPickup() {
-
-        pickup.setState(RC.Pickup_extend);
+        pickup.set(RC.Pickup_extend);
         PickUpTalon.set(1.0);
         PickupOut = true;
     }
 
     public void extendPickupR() {
-
-        pickup.setState(RC.Pickup_extend);
+        pickup.set(RC.Pickup_extend);
         PickUpTalon.set(-1.0);
         PickupOut = true;
     }
 
     public void extendPickupN() {
-
-        pickup.setState(RC.Pickup_extend);
+        pickup.set(RC.Pickup_extend);
         PickupOut = true;
     }
 
     public void retractPickup() {
-        pickup.setState(RC.Pickup_retract);
+        pickup.set(RC.Pickup_retract);
         stopMotor = true;
     }
 

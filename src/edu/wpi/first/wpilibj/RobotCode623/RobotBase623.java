@@ -26,10 +26,6 @@ public class RobotBase623 {
     private Talon PickupTalon;
     //******************************
     // Pnuematics components********
-    private DoubleActSol catch_Sol;
-    private DoubleActSol pickup_Sol;
-    private DoubleActSol holding_Sol;
-    private SingleActSol launch_sol;
     private Compressor compressor;
     private DigitalInput ballPickupSwitch;
     //******************************
@@ -42,7 +38,6 @@ public class RobotBase623 {
     public RobotBase623() {
         InitDrive();
         InitSensors();
-        InitPnuematics();
         driveStick = new Joystick(RC.DRIVER_JOYSTICK_PORT);
         controlStick = new Joystick(RC.Control_JOYSTICK_PORT);
         
@@ -66,15 +61,6 @@ public class RobotBase623 {
         MechDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         System.out.println("Drive Inititlized");
     }
-    // Pnuematics Init;
-
-    private void InitPnuematics() {
-        catch_Sol = new DoubleActSol(RC.Catch_Lock_Port, RC.Catch_release_Port);
-       pickup_Sol = new DoubleActSol(RC.Pickup_Extend_port, RC.Pickup_Retract_port);
-        launch_sol = new SingleActSol(RC.Launch_Cylenders_Sol);
-        compressor = new Compressor(RC.COMPRESSOR_PRESSURE_SWITCH_CHANNEL_DIO, RC.COMPRESSOR_RELAY_CHANNEL);
-        System.out.println("Pnuematics Inititlized");
-    }
 
     private void InitSensors() {
         gyro = new Gyro(RC.Gyro_ALog);
@@ -90,22 +76,6 @@ public class RobotBase623 {
 
     public Compressor getCompressor() {
         return compressor;
-    }
-
-    public DoubleActSol getCatch() {
-        return catch_Sol;
-    }
-
-    public DoubleActSol getPickup() {
-        return pickup_Sol;
-    }
-
-    public DoubleActSol getHolder() {
-        return holding_Sol;
-    }
-
-    public SingleActSol getLaunchCylenders() {
-        return launch_sol;
     }
 
     public Gyro getGyro() {

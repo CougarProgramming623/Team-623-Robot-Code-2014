@@ -60,7 +60,7 @@ public class FRCControl623 extends IterativeRobot {
     public void teleopPeriodic() {
 
         DSInput();
-        if (PnuematicsControl.PickupOut && !manPickup || manPickupR);
+        if (airControl.PickupOut && !manPickup || manPickupR);
         {
             checkRetract();
         }
@@ -166,7 +166,7 @@ public class FRCControl623 extends IterativeRobot {
                 DSIO.setDigitalOutput(12, true);
             }
         } catch (DriverStationEnhancedIO.EnhancedIOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
