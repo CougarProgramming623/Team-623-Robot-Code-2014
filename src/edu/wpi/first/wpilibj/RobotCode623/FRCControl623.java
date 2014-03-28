@@ -110,47 +110,59 @@ public class FRCControl623 extends IterativeRobot {
             if (null == DSIO) {
                 DSIO = DriverStation.getInstance().getEnhancedIO();
             }
-            if (DSIO.getDigital(RC.DIO_Fire)) {
+            short d = DSIO.getDigitals();
+            
+            //if (DSIO.getDigital(RC.DIO_Fire)) {
+            if (0 != (d & (1 << RC.DIO_Fire))) {
                 airControl.Fire();
             }
-            if (DSIO.getDigital(RC.DIO_Charge)) {
+            //if (DSIO.getDigital(RC.DIO_Charge)) {
+            if (0 != (d & (1 << RC.DIO_Charge))) {
                 airControl.Charge();
             }
-            if (DSIO.getDigital(RC.DIO_Juke_shoot_right)) {
+            //if (DSIO.getDigital(RC.DIO_Juke_shoot_right)) {
+            if (0 != (d & (1 << RC.DIO_Juke_shoot_right))) {
                 autoDrive.JukeNShootRight();
             }
-            if (DSIO.getDigital(RC.DIO_Juke_shoot_Left)) {
+            //if (DSIO.getDigital(RC.DIO_Juke_shoot_Left)) {
+            if (0 != (d & (1 << RC.DIO_Juke_shoot_Left))) {
                 autoDrive.JukeNShootLeft();
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_auto)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_auto)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_auto))) {
                 airControl.extendPickup();
                 rollerStop = false;
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_manual_extend)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_manual_extend)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_manual_extend))) {
                 airControl.extendPickupN();
                 manPickup = true;
             } else if (manPickup) {
                 airControl.retractPickup();
                 manPickup = false;
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_auto_reverse)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_auto_reverse)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_auto_reverse))) {
                 airControl.extendPickupR();
                 manPickupR = true;
             } else if (manPickupR) {
                 airControl.retractPickup();
                 manPickupR = false;
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_manual_retract)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_manual_retract)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_manual_retract))) {
                 airControl.retractPickup();
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_rollers_reverse)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_rollers_reverse)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_rollers_reverse))) {
                 rollersr = true;
                 robotBase.GetPickupTalon().set(1.0);
             } else if (rollersr) {
                 robotBase.GetPickupTalon().set(0.0);
                 rollersr = false;
             }
-            if (DSIO.getDigital(RC.DIO_Pickup_rollers_forward)) {
+            //if (DSIO.getDigital(RC.DIO_Pickup_rollers_forward)) {
+            if (0 != (d & (1 << RC.DIO_Pickup_rollers_forward))) {
                 rollersf = true;
                 robotBase.GetPickupTalon().set(-1.0);
             } else if (rollersf) {
