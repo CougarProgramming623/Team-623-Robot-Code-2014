@@ -38,7 +38,7 @@ public class FRCControl623 extends IterativeRobot {
         robotBase = new RobotBase623();
         drivebase = new DriveTrain(robotBase);
         airControl = new PnuematicsControl(robotBase);
-        //  VisionThread.init();
+        Vision2.init();
         manPickup = false;
         manPickupR = false;
     }

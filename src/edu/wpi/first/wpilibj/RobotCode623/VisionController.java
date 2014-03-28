@@ -190,9 +190,9 @@ public class VisionController {
             }
 
         } catch (NIVisionException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         } catch (AxisCameraException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
 
     }
