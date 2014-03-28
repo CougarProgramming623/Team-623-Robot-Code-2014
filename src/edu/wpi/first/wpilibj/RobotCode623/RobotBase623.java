@@ -25,7 +25,9 @@ public class RobotBase623 {
     private Talon PickupTalon;
     //******************************
     // Pnuematics components********
-    private Compressor compressor;
+    private final Compressor compressor =
+            new Compressor(RC.COMPRESSOR_PRESSURE_SWITCH_CHANNEL_DIO,
+            RC.COMPRESSOR_RELAY_CHANNEL);
     private DigitalInput ballPickupSwitch;
     //******************************
     public static VisionController visControl;
