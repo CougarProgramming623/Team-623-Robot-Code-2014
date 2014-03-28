@@ -4,7 +4,6 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
@@ -24,7 +23,7 @@ public class VisionController {
     private static VisionController instance;
     public double Distance = 0;
     public boolean isHot;
-    public static boolean  Proccessing;
+    public static boolean Proccessing;
     public boolean start = true;
     //Camera constants used for distance calculation
     private final int Y_IMAGE_RES = 480;    // Y Image resolution in pixels
@@ -51,7 +50,7 @@ public class VisionController {
 
     private final AxisCamera camera;      // the axis camera object (connected to the switch)
     private CriteriaCollection cc;  // the criteria for doing the particle filter operation
-    
+
     public class Scores {
 
         double rectangularity;
@@ -93,9 +92,9 @@ public class VisionController {
     }
 
     public void processImage() {
-         Proccessing = true;
+        Proccessing = true;
         try {
-           
+
             ColorImage image = camera.getImage();
             BinaryImage thresholdImage = image.thresholdHSV(120, 160, 200, 255, 200, 255);   // keep only green objects
             BinaryImage filteredImage = thresholdImage.particleFilter(cc);
@@ -176,29 +175,28 @@ public class VisionController {
                     //horizontal or vertical index to get the particle report as shown below
                     ParticleAnalysisReport distanceReport = filteredImage.getParticleAnalysisReport(target.horizontalIndex);
                     Distance = computeDistance(filteredImage, distanceReport, target.horizontalIndex);
-                   
-                   
-                    
+
                 }
-                   /**
-             * all images in Java must be freed after they are used since they
-             * are allocated out of C data structures. Not calling free() will
-             * cause the memory to accumulate over each pass of this loop.
-             */
-             filteredImage.free();
-            thresholdImage.free();
-            image.free();
+                /**
+                 * all images in Java must be freed after they are used since
+                 * they are allocated out of C data structures. Not calling
+                 * free() will cause the memory to accumulate over each pass of
+                 * this loop.
+                 */
+                filteredImage.free();
+                thresholdImage.free();
+                image.free();
 
             }
-            
+
         } catch (NIVisionException ex) {
             ex.printStackTrace();
         } catch (AxisCameraException ex) {
             ex.printStackTrace();
         }
-     
+
     }
-    
+
     public TargetReport getReport() {
         return target;
     }
@@ -306,9 +304,9 @@ public class VisionController {
         //on skewed rectangles
         width = Math.min(report.boundingRectWidth, rectLong);
         Real_targetWidth = 32;
-       	double x = (640*32);
-	double distance = x/((2*width)*(Math.tan(33.5 * 0.0174532925)));
-	return (distance + (distance * .111))/12;   
+        double x = (640 * 32);
+        double distance = x / ((2 * width) * (Math.tan(33.5 * 0.0174532925)));
+        return (distance + (distance * .111)) / 12;
     }
 
     /**
@@ -326,6 +324,5 @@ public class VisionController {
 
         return isHot;
     }
-    
-}
 
+}

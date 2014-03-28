@@ -6,15 +6,16 @@ package edu.wpi.first.wpilibj.RobotCode623;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.*;
+
 /**
  *
  * @author samwinkelstein
  */
 public class DriveTrain extends Subsystem {
-    
-       public void initDefaultCommand() {
+
+    public void initDefaultCommand() {
         drive();
-        }
+    }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     private RobotDrive mechDrive;
@@ -25,22 +26,21 @@ public class DriveTrain extends Subsystem {
     private double twistMag;
     private boolean ABORT;
 
-    public DriveTrain(RobotBase623 base)
-    {
+    public DriveTrain(RobotBase623 base) {
         mechDrive = base.getDriveBase();
         driveStick = base.getDriveStick();
     }
-  
-       public void drive() {
+
+    public void drive() {
         double magnitude = applyMagnitudeSquared(applyMagnitudeDeadband(driveStick.getMagnitude()));
         double direction = driveStick.getDirectionDegrees();
         double rotation = applyRotationalDeadband(driveStick.getTwist());
         mechDrive.mecanumDrive_Polar(magnitude, direction, rotation);
     }
-         public void AutoDrive(double Magnitude, double direction, double twist)
-         {
-             mechDrive.mecanumDrive_Polar(Magnitude, direction, twist);
-         }
+
+    public void AutoDrive(double Magnitude, double direction, double twist) {
+        mechDrive.mecanumDrive_Polar(Magnitude, direction, twist);
+    }
 
     private double applyMagnitudeSquared(double magnitude) {
         return magnitude * magnitude;
@@ -67,5 +67,5 @@ public class DriveTrain extends Subsystem {
         }
         return newTwist;
     }
- 
+
 }

@@ -37,35 +37,28 @@ public class AutonomousController623 {
         robotBase.getGyro().reset();
         ShootAngle = robotBase.getGyro().getAngle();
     }
-    
-        public void AutoInit()
-        {
-             ShootAngle = robotBase.getGyro().getAngle();
-        }
+
+    public void AutoInit() {
+        ShootAngle = robotBase.getGyro().getAngle();
+    }
     private int shootTimer = 0;
-    public void Auto1()
-    {
-        if(RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax ||
-              RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax  )
-        {
-            
-             double Magintude = 0;
+
+    public void Auto1() {
+        if (RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax
+                || RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax) {
+
+            double Magintude = 0;
             double Direction = 0;
             double twist = 0;
             mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
-            if(Vision2.isHot)
-            {
-            if(shootTimer == 3)
-            {
-                airControl.Fire();
+            if (Vision2.isHot) {
+                if (shootTimer == 3) {
+                    airControl.Fire();
+                } else {
+                    shootTimer++;
+                }
             }
-            else
-            {
-                shootTimer++;
-            }
-            }
-        }
-        else{
+        } else {
             double Magintude = .75;
             double Direction = 0;
             double twist = 0;
@@ -90,70 +83,59 @@ public class AutonomousController623 {
         return false;
     }
 
-
     public void JukeNShootRight() {
-        while(Math.abs(robotBase.getGyro().getAngle() - ShootAngle) > 1) {
+        while (Math.abs(robotBase.getGyro().getAngle() - ShootAngle) > 1) {
             if (robotBase.getGyro().getAngle() > ShootAngle) {
                 twistmagnitude = -.3;
-            }
-                else {
+            } else {
                 twistmagnitude = .3;
             }
             mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
-            if(ABORT)
-            {
+            if (ABORT) {
                 break;
             }
         }
-       while(robotBase.getGyro().getAngle() < 15)
-       {
-           twistmagnitude = .7;
-       if(ABORT)
-       {
-           break;
-       }
-        mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
-       }
-       mechDrive.mecanumDrive_Polar(0, 0, 0);
-       Timer.delay(0.25);
-       airControl.Fire();
+        while (robotBase.getGyro().getAngle() < 15) {
+            twistmagnitude = .7;
+            if (ABORT) {
+                break;
+            }
+            mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
+        }
+        mechDrive.mecanumDrive_Polar(0, 0, 0);
+        Timer.delay(0.25);
+        airControl.Fire();
 
     }
-    
-      public void JukeNShootLeft() {
-        while(Math.abs(robotBase.getGyro().getAngle() - ShootAngle) > 1) {
+
+    public void JukeNShootLeft() {
+        while (Math.abs(robotBase.getGyro().getAngle() - ShootAngle) > 1) {
             if (robotBase.getGyro().getAngle() > ShootAngle) {
                 twistmagnitude = -.3;
-            }
-                else {
+            } else {
                 twistmagnitude = .3;
             }
             mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
-            if(ABORT)
-            {
+            if (ABORT) {
                 break;
             }
         }
-       while(robotBase.getGyro().getAngle() > -15)
-       {
-           twistmagnitude = -.7;
-       if(ABORT)
-       {
-           break;
-       }
-        mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
-       }
-       mechDrive.mecanumDrive_Polar(0, 0, 0);
-          Timer.delay(0.25);
-       airControl.Fire();
+        while (robotBase.getGyro().getAngle() > -15) {
+            twistmagnitude = -.7;
+            if (ABORT) {
+                break;
+            }
+            mechDrive.mecanumDrive_Polar(0, 0, twistmagnitude);
+        }
+        mechDrive.mecanumDrive_Polar(0, 0, 0);
+        Timer.delay(0.25);
+        airControl.Fire();
 
     }
-      public double getUSoundDistance()
-          {
-              return robotBase.getEz4().getDistance();
-              
-          }
-    
-    
-    
+
+    public double getUSoundDistance() {
+        return robotBase.getEz4().getDistance();
+
+    }
+
 }

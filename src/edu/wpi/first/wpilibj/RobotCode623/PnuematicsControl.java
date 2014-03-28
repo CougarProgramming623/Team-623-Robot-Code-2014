@@ -15,18 +15,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class PnuematicsControl extends Subsystem {
 
     protected void initDefaultCommand() {
- 
     }
+
     private DoubleActSol Catch;
     private DoubleActSol pickup;
     private DoubleActSol holder;
     private SingleActSol LaunchCylenders;
     public static boolean charged;
     public static boolean fire;
-    private Talon PickUpTalon;  
-    public static boolean PickupOut; 
+    private Talon PickUpTalon;
+    public static boolean PickupOut;
     public boolean stopMotor;
     public int pickupCount = 0;
+
     public PnuematicsControl(RobotBase623 robotBase) {
         charged = false;
         Catch = robotBase.getCatch();
@@ -51,39 +52,39 @@ public class PnuematicsControl extends Subsystem {
         Timer.delay(.5);
         LaunchCylenders.setState(false);
     }
+
     public void extendPickup() {
-        
+
         pickup.setState(RC.Pickup_extend);
         PickUpTalon.set(1.0);
-        PickupOut = true; 
+        PickupOut = true;
     }
+
     public void extendPickupR() {
-        
+
         pickup.setState(RC.Pickup_extend);
         PickUpTalon.set(-1.0);
         PickupOut = true;
     }
-        public void extendPickupN() {
-        
+
+    public void extendPickupN() {
+
         pickup.setState(RC.Pickup_extend);
         PickupOut = true;
     }
+
     public void retractPickup() {
         pickup.setState(RC.Pickup_retract);
         stopMotor = true;
-    }   
-    
-    public void stopPickupMotor()
-    {
-        if(pickupCount > 6)
-        {
+    }
+
+    public void stopPickupMotor() {
+        if (pickupCount > 6) {
             PickUpTalon.set((0.0));
             stopMotor = false;
             pickupCount = 0;
-        }
-        else 
-        {
-            pickupCount ++;
+        } else {
+            pickupCount++;
         }
     }
 }
