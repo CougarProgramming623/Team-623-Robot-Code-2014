@@ -57,9 +57,13 @@ public class RC {
     public static final Value Pickup_extend = Value.kForward;
     public static final Value Pickup_retract = Value.kReverse;
     public static final Value Pickup_off = Value.kOff;
+    
+    public static final Value Launch_launch = Value.kForward;
+    public static final Value Launch_retract = Value.kReverse;
+    public static final Value Launch_off = Value.kOff;
 
     //solinoid single
-    public static final int Launch_Cylenders_Sol = 1;
+    //public static final int Launch_Cylenders_Sol = 1;
     // solinoid double
     // catch sol
     public static final int Catch_Lock_Port = 2;
@@ -67,17 +71,15 @@ public class RC {
     // pickup sol
     public static final int Pickup_Extend_port = 4;
     public static final int Pickup_Retract_port = 5;
+    // launch sol
+    public static final int Launch_Extend_port = 6;
+    public static final int Launch_Retract_port = 7;
     //anolog sensors use ALog at end 1, 8
     public static final int Gyro_ALog = 1;
 
     
     // Digital inputs use Alog at end 1,9
     
-    
-    //distance inRange;
-    public static final int Max = 16;
-    public static final int Min = 13;
-     
     //Ball pickup switch
     public static final int Ball_Pickup_DIO = 3;    
     
@@ -87,7 +89,7 @@ public class RC {
     //Vision
     public static final int minWidthforHot = 70;
     public static final int minHeightforHot = 70;
-    public static final double shootDistanceMax = 13.5;
-    public static final double shootDistanceMin = 10.5;
+    public static final double shootDistanceMax = 11;
+    public static final double shootDistanceMin = 8;
 }
 

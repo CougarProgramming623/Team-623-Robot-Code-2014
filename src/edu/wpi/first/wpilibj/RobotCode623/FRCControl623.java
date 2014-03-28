@@ -73,6 +73,7 @@ public class FRCControl623 extends IterativeRobot {
         }
         //getCamDistance();
         drivebase.drive();
+        printToDash(1, "sonar distance: " + getUSoundDistance());
     }
 
     public void testPeriodic() {
@@ -213,9 +214,13 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public boolean inRange() {
-        return RC.shootDistanceMin < Vision2.DistanceY &&
-                Vision2.DistanceY < RC.shootDistanceMax ||
+    //    return RC.shootDistanceMin < Vision2.DistanceY &&
+    //            Vision2.DistanceY < RC.shootDistanceMax ||
+    //            RC.shootDistanceMin < getUSoundDistance() &&
+    //            getUSoundDistance() < RC.shootDistanceMax;
+        return //RC.shootDistanceMin < Vision2.DistanceY &&
+                //Vision2.DistanceY < RC.shootDistanceMax ||
                 RC.shootDistanceMin < getUSoundDistance() &&
                 getUSoundDistance() < RC.shootDistanceMax;
-    }
+        }
 }
