@@ -34,6 +34,9 @@ public class FRCControl623 extends IterativeRobot {
     private boolean manPickupR = false;
     private boolean rollersr = false;
     private boolean rollersf = false;
+    private Solenoid shootLight;
+    private int pulse;
+    private boolean range;
 
     // init Robot 
     public void robotInit() {
@@ -41,8 +44,9 @@ public class FRCControl623 extends IterativeRobot {
         drivebase = new DriveTrain(robotBase);
         airControl = new PnuematicsControl();
         autoDrive = new AutonomousController623(robotBase, airControl);
-        Vision2.init();
+        shootLight = new Solenoid(1);
         new Thread(DSIO).start();
+        pulse = 0;
     }
 
     public void testInit() {
@@ -53,8 +57,8 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-        //autoDrive.Auto1();
-        autoDrive.AutoSimple();
+       autoDrive.AutoSimple();
+        //autoDrive.AutoWithNoHotGoal();
     }
 
     public void teleopInit() {
@@ -74,6 +78,7 @@ public class FRCControl623 extends IterativeRobot {
         //getCamDistance();
         drivebase.drive();
         printToDash(1, "sonar distance: " + getUSoundDistance());
+         shootLight.set(inRange());
     }
 
     public void testPeriodic() {
@@ -214,13 +219,29 @@ public class FRCControl623 extends IterativeRobot {
     }
 
     public boolean inRange() {
-    //    return RC.shootDistanceMin < Vision2.DistanceY &&
-    //            Vision2.DistanceY < RC.shootDistanceMax ||
-    //            RC.shootDistanceMin < getUSoundDistance() &&
-    //            getUSoundDistance() < RC.shootDistanceMax;
-        return //RC.shootDistanceMin < Vision2.DistanceY &&
-                //Vision2.DistanceY < RC.shootDistanceMax ||
-                RC.shootDistanceMin < getUSoundDistance() &&
-                getUSoundDistance() < RC.shootDistanceMax;
+    double distance = getUSoundDistance();
+    if(RC.shootDistanceMin < distance && distance < RC.shootDistanceMax)
+    {
+        if(pulse == 15)
+    {
+        if(range)
+        range = false;
+        else
+        {
+            range = true;
         }
+        pulse = 0;
+    }
+         pulse ++;
+    }
+    else if( distance < RC.CloseshootDistanceMax &&  distance > RC.CloseshootDistanceMin)
+    {
+        range = true;
+    }
+    else
+    {
+        range = false;
+    }
+    return range;
+    }
 }

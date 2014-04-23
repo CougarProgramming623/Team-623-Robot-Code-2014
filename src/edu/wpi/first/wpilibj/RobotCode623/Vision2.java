@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
+import edu.wpi.first.wpilibj.RobotCode623.RC;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.camera.AxisCameraException;
 import edu.wpi.first.wpilibj.image.BinaryImage;
@@ -17,28 +18,16 @@ import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
  *
  * @author samwinkelstein
  */
-public class Vision2 implements Runnable {
+public class Vision2 {
 
     public static volatile boolean isHot;
     public static volatile double DistanceX;
     public static volatile double DistanceY;
     public static AxisCamera Camera = AxisCamera.getInstance();
+    public static boolean HotGoal = false;
 
     public Vision2() {
-
-    }
-    
-    public static void init() {
-        //new Thread(new Vision2()).start();
-    }
-
-    public void run() {
-        while (true) {
-            if (Camera.freshImage()) {
-                DoVision();
-            }
-            Thread.yield();
-        }
+        
     }
     
     public void DoVision() {
@@ -50,6 +39,11 @@ public class Vision2 implements Runnable {
             cc.addCriteria(NIVision.MeasurementType.IMAQ_MT_AREA, 150, 6535, false);
             BinaryImage filteredImage = convexImage.particleFilter(cc);
             ParticleAnalysisReport[] myReports = filteredImage.getOrderedParticleAnalysisReports();
+            
+            thresholdImage.free();
+            convexImage.free();
+            myImage.free();
+            filteredImage.free();
 
             boolean startforWidth = true;
             double xWidth = 0;
@@ -58,7 +52,7 @@ public class Vision2 implements Runnable {
                 if (startforWidth) {
                     xWidth = myReports[i].boundingRectWidth;
                     xHeight = myReports[i].boundingRectHeight;
-                    if (xWidth > xHeight * 6) {
+                    if (xWidth > xHeight * 4) {
                         startforWidth = false;
                     }
                 } else {
@@ -89,13 +83,10 @@ public class Vision2 implements Runnable {
                     }
                 }
             }
-            DistanceX = computeDistanceX(xWidth);
-            DistanceY = computeDistanceY(yHeight);
+           // DistanceX = computeDistanceX(xWidth);
+           // DistanceY = computeDistanceY(yHeight);
             isHot = isHot(xWidth, yHeight);
-            thresholdImage.free();
-            convexImage.free();
-            myImage.free();
-            filteredImage.free();
+            
         } catch (AxisCameraException ex) {
             //ex.printStackTrace();
         } catch (NIVisionException ex) {
@@ -104,20 +95,27 @@ public class Vision2 implements Runnable {
     }
 
     public double computeDistanceX(double width) {
-        double x = (640 * 32);
+        double x = (Camera.getResolution().width * 32);
         double distance = x / ((2 * width) * (Math.tan(33.5 * 0.0174532925)));
         return (distance + (distance * .111)) / 12;
     }
 
     public double computeDistanceY(double hieght) {
-        double y = (4 * 480);
+        double y = (Camera.getResolution().height * 32);
         double distance = y / ((2 * hieght) * (Math.tan(25.5 * 0.0174532925)));
 
         return (distance + (distance * .111)) / 12;
     }
 
     public boolean isHot(double horizontalW, double verticalH) {
-        return (horizontalW >= RC.minWidthforHot && verticalH >= RC.minHeightforHot);
+        HotGoal = false;
+       HotGoal = (horizontalW >= RC.minWidthforHot && verticalH >= RC.minHeightforHot);
+        return HotGoal;
+    }
+    
+    public void AutoSnapShot()
+    {
+        DoVision();
     }
 
 }

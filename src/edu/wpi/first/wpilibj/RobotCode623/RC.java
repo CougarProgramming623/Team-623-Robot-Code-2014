@@ -89,7 +89,9 @@ public class RC {
     //Vision
     public static final int minWidthforHot = 70;
     public static final int minHeightforHot = 70;
-    public static final double shootDistanceMax = 11;
-    public static final double shootDistanceMin = 8;
+    public static final double shootDistanceMax = 12.5;
+    public static final double shootDistanceMin = 11.5;
+    public static final double CloseshootDistanceMax = 7.6;
+    public static final double CloseshootDistanceMin = 5;
 }
 

@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.RobotCode623;
 
+
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -29,6 +30,18 @@ public class AutonomousController623 {
     public double ShootAngle;
     boolean initjukeNShoot;
     private int autoCycles;
+    public static boolean autoSnap;
+    public Timer matchTimer;
+    public static Vision2 snapshotVision;
+    private int cycles;
+    private boolean fired;
+    private boolean automove;
+    
+    public void AutoInitforHG() {
+       autoCycles = 0;
+       fired = false;
+       automove =  true;
+   }
 
     public AutonomousController623(RobotBase623 robotBase, PnuematicsControl airControl) {
         this.robotBase = robotBase;
@@ -37,31 +50,31 @@ public class AutonomousController623 {
         start = true;
         robotBase.getGyro().reset();
         ShootAngle = robotBase.getGyro().getAngle();
+        //snapshotVision = new Vision2();
     }
 
-    public void AutoInit() {
+        public void AutoInit() {
         ShootAngle = robotBase.getGyro().getAngle();
         autoCycles = 0;
         airControl.Charge();
     }
+        
     private int shootTimer = 0;
 
     public void Auto1() {
-        if (RC.shootDistanceMin < Vision2.DistanceY && Vision2.DistanceY < RC.shootDistanceMax
-                || RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax) {
+        if (RC.shootDistanceMin < getUSoundDistance() && getUSoundDistance() < RC.shootDistanceMax) {
 
             double Magintude = 0;
             double Direction = 0;
             double twist = 0;
-            mechDrive.mecanumDrive_Polar(Magintude, direction, twist);
-            if (Vision2.isHot) {
-                if (shootTimer == 3) {
+            mechDrive.mecanumDrive_Polar(Magintude, Direction, twist);
+           // if (Vision2.isHot) {
+               // if (shootTimer == 3) {
                     airControl.Fire();
-                } else {
-                    shootTimer++;
-                }
-            }
-        } else {
+               // } else {
+               // }
+        }
+        else {
             double Magintude = .75;
             double Direction = 0;
             double twist = 0;
@@ -71,11 +84,11 @@ public class AutonomousController623 {
     }
     
     public void AutoSimple() {
-        if (autoCycles == 70) {
+        if (autoCycles == 95) {
             mechDrive.mecanumDrive_Polar(0, 0, 0);
             autoCycles++;
-        } else if (autoCycles == 85) {
-            airControl.Fire();
+        } else if (autoCycles == 110) {
+           // airControl.Fire();
         } else {
             mechDrive.mecanumDrive_Polar(.75, 0, 0);
             autoCycles++;
@@ -143,6 +156,66 @@ public class AutonomousController623 {
     public double getUSoundDistance() {
         return robotBase.getEz4().getDistance();
 
+    }
+    
+    public void AutoWithHotGoal()
+    {
+        if(getUSoundDistance() < RC.shootDistanceMax || autoCycles >= 70 || !automove)
+        {
+            automove = false;
+            mechDrive.mecanumDrive_Polar(0.0, 0.0, 0.0);
+            if(autoSnap)
+            {
+                autoSnap = false;
+                //snapshotVision.AutoSnapShot();
+                
+                cycles = 0;
+            }
+            if(Vision2.HotGoal && !fired)
+            {
+                System.out.println("HotGoal!");
+                if(cycles >= 10)
+                {
+                airControl.Fire();
+                fired = true;
+                }
+                else
+                {
+                    cycles ++;
+                }
+            }
+            else if(autoCycles >= 250 && !fired)
+            {
+                 System.out.println("NotHot!");
+                airControl.Fire();
+                fired = true;
+            }
+            }
+        else if(automove){
+            mechDrive.mecanumDrive_Polar(0.75, 0, 0);
+        }
+        autoCycles ++;
+    }
+    
+     public void AutoWithNoHotGoal()
+    {
+        if( getUSoundDistance() < RC.CloseshootDistanceMax || !automove)
+        {
+            automove = false;
+            mechDrive.mecanumDrive_Polar(0.0, 0.0, 0.0);
+                if(cycles >= 10 && !fired){
+                airControl.Fire();
+                fired = true;
+                }
+                else
+                {
+                    cycles ++;
+                }
+        }
+        else{
+            mechDrive.mecanumDrive_Polar(0.75, 0, 0);
+        }
+        autoCycles ++;
     }
 
 }
